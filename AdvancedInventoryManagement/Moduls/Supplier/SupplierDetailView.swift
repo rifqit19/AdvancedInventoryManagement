@@ -6,15 +6,36 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct SupplierDetailView: View {
     let supplier: Supplier
     let inventoryItems: [Inventory]
+    
+
+    @State private var region: MKCoordinateRegion
+
+    init(supplier: Supplier, inventoryItems: [Inventory]) {
+        self.supplier = supplier
+        self.inventoryItems = inventoryItems
+        _region = State(initialValue: MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: supplier.latitude, longitude: supplier.longitude),
+            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        ))
+    }
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    HStack{
+                        Spacer()
+                        Text("Details of Supplier")
+                            .font(.title2)
+                            .bold()
+                        Spacer()
+                    }
+
                     Text(supplier.name)
                         .font(.title)
                         .fontWeight(.bold)
@@ -25,20 +46,48 @@ struct SupplierDetailView: View {
                     Text("Contact: \(supplier.contact)")
                         .font(.body)
 
-                    Button(action: {
-                        openGoogleMaps(lat: supplier.latitude, lng: supplier.longitude)
-                    }) {
-                        Text("View Location on Map")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                    ZStack{
+                        // buatkan mapview
+                        
+                        Map(coordinateRegion: $region, annotationItems: [supplier]) { location in
+                            MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                        }
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .disabled(true)
+                        
+
+                        
+                        Button(action: {
+                            openGoogleMaps(lat: supplier.latitude, lng: supplier.longitude)
+                        }) {
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .contentShape(Rectangle())
+
+                        }
                     }
-                    
+
                     Divider()
 
-                    Section(header: Text("Inventory Items")) {
+                    Section {
+                        HStack {
+                            Text("Inventory Items")
+                            Spacer()
+//                            NavigationLink(destination: AddSupplierView()) {
+//                                Image(systemName: "plus")
+//                            }
+                            
+                            Button {
+                                print("add item")
+                            } label: {
+                                Image(systemName: "plus")
+                            }
+
+
+                        }
+                        
                         ForEach(inventoryItems.filter { $0.supplierID == supplier.id }) { item in
                             HStack(spacing: 8) {
                                 
@@ -55,13 +104,11 @@ struct SupplierDetailView: View {
                                 }
                             }
                         }
-
                     }
-                    
+
                     Spacer()
                 }
                 .padding()
-                .navigationTitle("Supplier Details")
                 .hideTabBar()
             }
         }
