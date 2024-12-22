@@ -15,6 +15,8 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
 
+    @EnvironmentObject var viewModel: AuthViewModel
+
     var body: some View {
         VStack(alignment: .center) {
             
@@ -62,6 +64,9 @@ struct LoginView: View {
             
             Button {
                 showMain = true
+                Task {
+                    try await viewModel.signIn(withEmail: email, password: password)
+                }
             } label: {
                 Text("Login")
                     .frame(maxWidth: .infinity)
@@ -76,14 +81,27 @@ struct LoginView: View {
                     )
                 
             }
-            .fullScreenCover(isPresented: $showMain) {
-                ContentView()
-            }
+            .disabled(!formIsValid)
+            .opacity(formIsValid ? 1.0 : 0.5)
+//            .fullScreenCover(isPresented: $showMain) {
+//                ContentView()
+//            }
             
 
             Spacer()
         } // VStack
         .padding(20)
+    }
+}
+
+// MARK: AutenticationFormProtocol
+
+extension LoginView : AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count >= 5
     }
 }
 
