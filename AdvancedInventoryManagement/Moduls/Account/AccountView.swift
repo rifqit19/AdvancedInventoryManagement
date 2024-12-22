@@ -8,8 +8,49 @@
 import SwiftUI
 
 struct AccountView: View {
+    
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        if let user = viewModel.currentUser {
+            NavigationView {
+                VStack (spacing: 16) {
+                    Text(user.initials)
+                        .font(.headline)
+
+                    Text(user.fullname)
+                        .font(.headline)
+                    Text(user.email)
+                        .font(.subheadline)
+                    
+                    Spacer()
+                    
+                    Button {
+                        
+                        viewModel.signOut()
+                        
+                    } label: {
+                        Text("Logout")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(
+                                    cornerRadius: 50,
+                                    style: .continuous
+                                )
+                                .fill(.orangeFF7F13)
+                            )
+                    }
+
+                }
+                .padding()
+                .navigationTitle("Account")
+                .showTabBar()
+            }
+
+        }
     }
 }
 
