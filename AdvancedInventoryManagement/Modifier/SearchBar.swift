@@ -1,3 +1,12 @@
+//
+//  SearchBar.swift
+//  AdvancedInventoryManagement
+//
+//  Created by rifqi triginandri on 19/12/24.
+//
+
+import SwiftUI
+
 struct SearchBar: View {
     @Binding var text: String
     var onSearch: (String) -> Void
@@ -18,7 +27,7 @@ struct SearchBar: View {
             }) {
                 Image(systemName: "magnifyingglass")
                     .padding(8)
-                    .background(Color(.systemBlue))
+                    .background(.orangeFF7F13)
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
