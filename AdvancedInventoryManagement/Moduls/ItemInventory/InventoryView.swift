@@ -37,15 +37,15 @@ struct InventoryView: View {
                 }
             }
             .navigationTitle("Inventory")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        print("Add Item action")
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: {
+//                        print("Add Item action")
+//                    }) {
+//                        Image(systemName: "plus")
+//                    }
+//                }
+//            }
         }
     }
 }
