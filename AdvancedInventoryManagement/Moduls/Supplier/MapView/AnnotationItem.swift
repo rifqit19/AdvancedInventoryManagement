@@ -5,8 +5,9 @@
 //  Created by rifqi triginandri on 19/12/24.
 //
 
+import SwiftUI
+import MapKit
 
-// Model untuk anotasi pada MapView
 struct AnnotationItem: Identifiable {
     let id = UUID()
     let coordinate: CLLocationCoordinate2D
