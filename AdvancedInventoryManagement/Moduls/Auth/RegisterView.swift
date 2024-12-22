@@ -17,6 +17,8 @@ struct RegisterView: View {
     @State private var phone: String = ""
     @State private var password: String = ""
     @State private var confirmationPassword: String = ""
+    
+    @EnvironmentObject var viewModel: AuthViewModel
 
     var body: some View {
         GeometryReader { geo in
@@ -67,7 +69,9 @@ struct RegisterView: View {
 
                             
                     Button {
-                        print("register button")
+                        Task {
+                            try await viewModel.createUser(withEmail: email, password: password, fullname: name)
+                        }
                     } label: {
                         Text("Register")
                             .frame(maxWidth: .infinity)
@@ -82,6 +86,7 @@ struct RegisterView: View {
                             )
                         
                     }
+                    .disabled(!formIsValid)
 
                     Spacer()
                 } // VStack
@@ -92,6 +97,21 @@ struct RegisterView: View {
         } // geometry reader
     }
 }
+
+// MARK: AutenticationFormProtocol
+
+extension RegisterView : AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count >= 5
+        && confirmationPassword == password
+        && !name.isEmpty
+    }
+}
+
+
 
 #Preview {
     RegisterView()
