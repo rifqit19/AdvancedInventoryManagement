@@ -13,6 +13,7 @@
 		4F47CB792D173DA800AED804 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F47CB782D173DA800AED804 /* AccountView.swift */; };
 		4F62EC1A2D1752F300AFC434 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC192D1752E300AFC434 /* AuthViewModel.swift */; };
 		4F62EC1C2D17536A00AFC434 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC1B2D17536500AFC434 /* User.swift */; };
+		4F62EC1E2D1880FF00AFC434 /* SupplierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC1D2D1880F000AFC434 /* SupplierViewModel.swift */; };
 		4F9CCE1E2D12BD7A003823FA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFA2D12BD7A003823FA /* ImagePicker.swift */; };
 		4F9CCE1F2D12BD7A003823FA /* SQLiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFB2D12BD7A003823FA /* SQLiteHelper.swift */; };
 		4F9CCE202D12BD7A003823FA /* Invetory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFD2D12BD7A003823FA /* Invetory.swift */; };
@@ -48,6 +49,7 @@
 		4F47CB782D173DA800AED804 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		4F62EC192D1752E300AFC434 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4F62EC1B2D17536500AFC434 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4F62EC1D2D1880F000AFC434 /* SupplierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplierViewModel.swift; sourceTree = "<group>"; };
 		4F883ED02D0A0C2000F56B07 /* AdvancedInventoryManagement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdvancedInventoryManagement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9CCDFA2D12BD7A003823FA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		4F9CCDFB2D12BD7A003823FA /* SQLiteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteHelper.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 		4F9CCE132D12BD7A003823FA /* Supplier */ = {
 			isa = PBXGroup;
 			children = (
+				4F62EC1D2D1880F000AFC434 /* SupplierViewModel.swift */,
 				4F47CB722D143FE800AED804 /* MapView */,
 				4F9CCE102D12BD7A003823FA /* AddSupplierView.swift */,
 				4F9CCE112D12BD7A003823FA /* SupplierDetailView.swift */,
@@ -407,6 +410,7 @@
 				4F47CB6F2D13625300AED804 /* SearchBar.swift in Sources */,
 				4F9CCE232D12BD7A003823FA /* Transaction.swift in Sources */,
 				4F47CB762D173D1C00AED804 /* AuthService.swift in Sources */,
+				4F62EC1E2D1880FF00AFC434 /* SupplierViewModel.swift in Sources */,
 				4F9CCE242D12BD7A003823FA /* TabBarModifier.swift in Sources */,
 				4F9CCE252D12BD7A003823FA /* TextFieldModifier.swift in Sources */,
 				4F9CCE262D12BD7A003823FA /* LoginView.swift in Sources */,

@@ -10,6 +10,7 @@ target 'AdvancedInventoryManagement' do
   pod 'FirebaseAnalytics'
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
+  pod 'FirebaseStorage'
 
 end
 
