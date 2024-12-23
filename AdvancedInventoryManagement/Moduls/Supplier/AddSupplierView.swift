@@ -8,8 +8,10 @@
 import Foundation
 import SwiftUI
 import MapKit
+import FirebaseAuth
 
 struct AddSupplierView: View {
+    
     @State private var name = ""
     @State private var address = ""
     @State private var contact = ""
@@ -17,6 +19,10 @@ struct AddSupplierView: View {
     @State private var longitude = 0.0
     
     @State private var isShowingMapPicker = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
+    @StateObject private var supplierViewModel = SupplierViewModel()
 
     var body: some View {
         NavigationView {
@@ -32,10 +38,9 @@ struct AddSupplierView: View {
                     
                     TextField("Address", text: $address)
                         .TextFieldTitleStyle(title: "Address", placeholder: "Address", text: $address)
-
+                    
                     TextField("Contact", text: $contact)
                         .TextFieldTitleStyle(title: "Contact", placeholder: "Supplier Contact", text: $contact)
-                    
                     
                     Section(header: Text("Location")) {
                         
@@ -62,17 +67,13 @@ struct AddSupplierView: View {
                             Button("Get Location") {
                                 isShowingMapPicker = true
                             }
-
                         }
                     }
                     
                     Spacer()
                     
                     Button {
-                        let newSupplier = Supplier(id: UUID().uuidString, name: name, address: address, contact: contact, latitude: latitude, longitude: longitude)
-                        
-                        print("save supplier : \(newSupplier)")
-                        
+                        saveSupplier()
                     } label: {
                         Text("Save")
                             .frame(maxWidth: .infinity)
@@ -92,12 +93,63 @@ struct AddSupplierView: View {
                 .hideTabBar()
                 .sheet(isPresented: $isShowingMapPicker) {
                     MapPickerView(latitude: $latitude, longitude: $longitude, isPresented: $isShowingMapPicker)
-
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Save Supplier"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }
             }
-
         }
     }
+    
+    // MARK: - Save Supplier
+    private func saveSupplier() {
+        guard !name.isEmpty, !address.isEmpty, !contact.isEmpty, latitude != 0.0, longitude != 0.0 else {
+            alertMessage = "Please fill in all fields and select a location."
+            showAlert = true
+            return
+        }
+        
+        guard let userID = Auth.auth().currentUser?.uid else {
+            alertMessage = "UserID not found"
+            showAlert = true
+            return
+        }
+        
+        let newSupplier = Supplier(
+            id: UUID().uuidString,
+            userID: userID,
+            name: name,
+            address: address,
+            contact: contact,
+            longitude: longitude,
+            latitude: latitude
+        )
+        
+        Task {
+            do {
+                try await supplierViewModel.addSupplier(supplier: newSupplier)
+                alertMessage = "Supplier successfully saved!"
+                showAlert = true
+                resetFields()
+            } catch {
+                alertMessage = "Failed to save supplier: \(error.localizedDescription)"
+                showAlert = true
+            }
+        }
+    }
+    
+    // MARK: - Reset Fields
+    private func resetFields() {
+        name = ""
+        address = ""
+        contact = ""
+        latitude = 0.0
+        longitude = 0.0
+    }
+}
+
+#Preview {
+    AddSupplierView()
 }
 
 #Preview {
