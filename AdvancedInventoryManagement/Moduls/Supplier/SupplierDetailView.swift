@@ -68,6 +68,10 @@ struct SupplierDetailView: View {
 
                         }
                     }
+                    
+                    Text("Lat: \(supplier.latitude), Long: \(supplier.longitude)")
+                        .font(.body)
+
 
                     Divider()
 
@@ -125,11 +129,12 @@ struct SupplierDetailView: View {
 #Preview {
     var sample =  Supplier(
         id: "1",
+        userID: "1",
         name: "Tech Supplies Inc.",
         address: "123 Tech Street",
         contact: "+123456789",
-        latitude: 37.7749,
-        longitude: -122.4194)
+        longitude: -122.4194,
+        latitude: 37.7749)
 
     var inventoryItems: [Inventory] = [
         Inventory(id: "1", name: "Laptop", quantity: 10, supplierID: "1", supplierName: "Tech Supplies Inc."),
