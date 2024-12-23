@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject private var supplierViewModel = SupplierViewModel()
     
     var body: some View {
         Group {
@@ -29,7 +30,7 @@ struct ContentView: View {
                     SupplierView()
                         .tabItem {
                             Label("Supplier", systemImage: "list.dash")
-                        }
+                        }.environmentObject(supplierViewModel)
                     
                     AccountView()
                         .tabItem {
