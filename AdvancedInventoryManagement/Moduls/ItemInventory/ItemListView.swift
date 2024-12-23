@@ -15,9 +15,6 @@ struct ItemListView: View {
             ZStack {
                 if viewModel.items.isEmpty {
                     VStack {
-                        Text("Daftar Barang")
-                            .font(.headline)
-                            .bold()
                         
                         Spacer()
                         
@@ -42,9 +39,6 @@ struct ItemListView: View {
                     }
                 } else {
                     VStack {
-                        Text("Daftar Barang")
-                            .font(.headline)
-                            .bold()
 
                         List(viewModel.items) { item in
                             HStack {
@@ -101,6 +95,8 @@ struct ItemListView: View {
                     }
                 } // end of vstack
             }
+            .navigationTitle("Inventory Items")
+
             .showTabBar()
         }
     }
