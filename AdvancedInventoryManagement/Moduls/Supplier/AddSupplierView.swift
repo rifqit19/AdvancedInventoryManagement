@@ -25,78 +25,76 @@ struct AddSupplierView: View {
     @StateObject private var supplierViewModel = SupplierViewModel()
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 16) {
+        ScrollView {
+            VStack(spacing: 16) {
+                
+                Text("Add Supplier")
+                    .font(.title2)
+                    .bold()
+                
+                TextField("Name", text: $name)
+                    .TextFieldTitleStyle(title: "Nama", placeholder: "Name", text: $name)
+                
+                TextField("Address", text: $address)
+                    .TextFieldTitleStyle(title: "Address", placeholder: "Address", text: $address)
+                
+                TextField("Contact", text: $contact)
+                    .TextFieldTitleStyle(title: "Contact", placeholder: "Supplier Contact", text: $contact)
+                
+                Section(header: Text("Location")) {
                     
-                    Text("Add Supplier")
-                        .font(.title2)
-                        .bold()
-                    
-                    TextField("Name", text: $name)
-                        .TextFieldTitleStyle(title: "Nama", placeholder: "Name", text: $name)
-                    
-                    TextField("Address", text: $address)
-                        .TextFieldTitleStyle(title: "Address", placeholder: "Address", text: $address)
-                    
-                    TextField("Contact", text: $contact)
-                        .TextFieldTitleStyle(title: "Contact", placeholder: "Supplier Contact", text: $contact)
-                    
-                    Section(header: Text("Location")) {
-                        
-                        if latitude != 0.0 && longitude != 0.0 {
-                            Button("Change Location") {
-                                isShowingMapPicker = true
-                            }
+                    if latitude != 0.0 && longitude != 0.0 {
+                        Button("Change Location") {
+                            isShowingMapPicker = true
+                        }
 
-                            Text("Coordinates: \(latitude), \(longitude)")
-                            
-                            Map(coordinateRegion: .constant(MKCoordinateRegion(
-                                center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                            )), annotationItems: [
-                                AnnotationItem(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                            ]) { annotation in
-                                MapMarker(coordinate: annotation.coordinate, tint: .red)
-                            }
-                            .frame(height: 200)
-                            .cornerRadius(10)
-                            .disabled(true)
-                            
-                        } else {
-                            Button("Get Location") {
-                                isShowingMapPicker = true
-                            }
+                        Text("Coordinates: \(latitude), \(longitude)")
+                        
+                        Map(coordinateRegion: .constant(MKCoordinateRegion(
+                            center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                        )), annotationItems: [
+                            AnnotationItem(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                        ]) { annotation in
+                            MapMarker(coordinate: annotation.coordinate, tint: .red)
+                        }
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                        .disabled(true)
+                        
+                    } else {
+                        Button("Get Location") {
+                            isShowingMapPicker = true
                         }
                     }
-                    
-                    Spacer()
-                    
-                    Button {
-                        saveSupplier()
-                    } label: {
-                        Text("Save")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(
-                                RoundedRectangle(
-                                    cornerRadius: 50,
-                                    style: .continuous
-                                )
-                                .fill(.orangeFF7F13)
+                }
+                
+                Spacer()
+                
+                Button {
+                    saveSupplier()
+                } label: {
+                    Text("Save")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(
+                            RoundedRectangle(
+                                cornerRadius: 50,
+                                style: .continuous
                             )
-                    }
+                            .fill(.orangeFF7F13)
+                        )
+                }
 
-                }
-                .padding(20)
-                .hideTabBar()
-                .sheet(isPresented: $isShowingMapPicker) {
-                    MapPickerView(latitude: $latitude, longitude: $longitude, isPresented: $isShowingMapPicker)
-                }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Save Supplier"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-                }
+            }
+            .padding(20)
+            .hideTabBar()
+            .sheet(isPresented: $isShowingMapPicker) {
+                MapPickerView(latitude: $latitude, longitude: $longitude, isPresented: $isShowingMapPicker)
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Save Supplier"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
         }
     }
@@ -127,13 +125,10 @@ struct AddSupplierView: View {
         
         Task {
             do {
-                try await supplierViewModel.addSupplier(supplier: newSupplier)
+                await supplierViewModel.addSupplier(supplier: newSupplier)
                 alertMessage = "Supplier successfully saved!"
                 showAlert = true
                 resetFields()
-            } catch {
-                alertMessage = "Failed to save supplier: \(error.localizedDescription)"
-                showAlert = true
             }
         }
     }
