@@ -11,8 +11,10 @@ struct AddTransactionView: View {
     
     @Binding var isPresented: Bool
 
-    @ObservedObject var viewModel: InventoryViewModel
-    var itemId: Int
+    @StateObject private var transactionViewModel = TransactionViewModel()
+    
+    var supplierID: String
+    var itemID: String
     var itemName: String
 
     @State private var transactionType = "Masuk"
@@ -34,7 +36,6 @@ struct AddTransactionView: View {
                 TextField("Jumlah", text: $quantity)
                     .keyboardType(.numberPad)
                     .onChange(of: quantity) { newValue in
-                        // Pastikan hanya angka yang dapat dimasukkan
                         quantity = newValue.filter { $0.isNumber }
                     }
 
@@ -43,15 +44,21 @@ struct AddTransactionView: View {
 
             Button(action: {
                 let quantityValue = Int(quantity) ?? 0
-                print("cek transaksi: \(transactionType) : \(quantity) : \(date)")
-                viewModel.addTransaction(itemId: itemId, itemName: itemName,  type: transactionType, quantity: quantityValue, date: date)
-                isPresented = false
+                
+                let transaction = Transaction(itemId: itemID, itemName: itemName, type: transactionType, quantity: transactionType == "Masuk" ? quantityValue : -quantityValue, date: date, supplierID: supplierID)
+                print("cek transaksi: \(transaction)")
+
+                Task {
+                    await transactionViewModel.addTransaction(idSupplier: supplierID, idItem: itemID, transaction: transaction)
+                    isPresented = false
+                }
+                
             }) {
-                Text("Simpan Transaksi")
+                Text("Save Transaction")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                    .background(.orangeFF7F13)
                     .foregroundColor(.white)
                     .cornerRadius(20)
             }
@@ -61,6 +68,6 @@ struct AddTransactionView: View {
 }
 
 #Preview {
-    let sampleViewModel = InventoryViewModel()
-    AddTransactionView(isPresented: .constant(true), viewModel: sampleViewModel, itemId: 1, itemName: "Beras")
+//    let sampleViewModel = InventoryViewModel()
+    AddTransactionView(isPresented: .constant(true), supplierID: "", itemID: "", itemName: "Beras")
 }
