@@ -55,7 +55,7 @@ struct SupplierView: View {
 
                 } else {
                     List(viewModel.suppliers) { supplier in
-                        NavigationLink(destination: SupplierDetailView(supplier: supplier, inventoryItems: inventoryItems)) {
+                        NavigationLink(destination: SupplierDetailView(supplier: supplier)) {
                             VStack(alignment: .leading) {
                                 Text(supplier.name)
                                     .font(.headline)
@@ -80,7 +80,7 @@ struct SupplierView: View {
             }
             .onAppear {
                 Task {
-                    await viewModel.fetchSuppliers() // Fetch data saat view muncul
+                    await viewModel.fetchSuppliers() 
                 }
             }
             .showTabBar()
