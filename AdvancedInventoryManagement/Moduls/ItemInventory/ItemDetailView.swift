@@ -8,21 +8,31 @@
 import SwiftUI
 
 struct ItemDetailView: View {
-    @ObservedObject var viewModel: InventoryViewModel
+    
     var item: Item
     @State private var showingAddTransactionView = false
+
+    @StateObject private var transactionViewModel = TransactionViewModel()
 
     var body: some View {
         VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    
+                    if let imageURL = item.imageURL, let url = URL(string: imageURL) {
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: UIScreen.main.bounds.width - 40, height: 250)
+                                .cornerRadius(10)
+                                .padding(.top, 16)
+                        } placeholder: {
+                            ProgressView()
+                                .frame(width: 60, height: 60)
+                        }
+                    }
 
-                    Image(uiImage: UIImage(contentsOfFile: item.imagePath) ?? UIImage(systemName: "photo")!)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 250)
-                        .cornerRadius(10)
-                        .padding(.top, 16)
 
                     VStack(alignment: .leading, spacing: 4){
 
@@ -42,49 +52,46 @@ struct ItemDetailView: View {
                         .font(.body)
                         .foregroundColor(.gray)
 
-                    
+                    Text("Stok: \(item.stock)")
+
                     Divider()
 
-                    HStack {
-                        Text("Riwayat Transaksi: \(viewModel.transactions.filter { $0.itemId == item.id }.count)")
-                            .font(.headline)
-                        
-                        Spacer()
-                        Divider()
-                        Spacer()
-                        
-                        Text("Stok: \(item.stock)")
-                    }
+                    Text("Riwayat Transaksi: ")
+                        .font(.headline)
 
-                    ForEach(viewModel.transactions.filter { $0.itemId == item.id }) { transaction in
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack (alignment: .center) {
-                                Text(transaction.date, style: .date)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                
-                                Spacer()
-
-                                VStack{
-                                    Text(transaction.type)
-                                        .font(.headline)
-                                        .foregroundColor(transaction.type == "Masuk" ? .green : .red)
+                    if transactionViewModel.transactions.isEmpty {
+                        Text("No transaction available.")
+                            .foregroundColor(.gray)
+                            .italic()
+                    } else {
+                        ForEach(transactionViewModel.transactions) { transaction in
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack (alignment: .center) {
+                                    Text(transaction.date, style: .date)
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
                                     
-                                    Text(transaction.type == "Masuk" ? "+\(transaction.quantity)" : "-\(transaction.quantity)")
-                                        .font(.title2)
-                                        .foregroundColor(transaction.type == "Masuk" ? .green : .red)
+                                    Spacer()
 
+                                    VStack{
+                                        Text(transaction.type)
+                                            .font(.headline)
+                                            .foregroundColor(transaction.type == "Masuk" ? .green : .red)
+                                        
+                                        Text(transaction.type == "Masuk" ? "+\(transaction.quantity)" : "\(transaction.quantity)")
+                                            .font(.title2)
+                                            .foregroundColor(transaction.type == "Masuk" ? .green : .red)
+
+                                    }
                                 }
+                                
                             }
+                            .padding(.vertical, 8)
                             
+                            Divider()
                         }
-                        .padding(.vertical, 8)
-                        
-                        Divider()
-                    }
-                    .listStyle(PlainListStyle())
-                    .onAppear {
-                        print("Filtered transactions: \(viewModel.transactions.filter { $0.itemId == item.id })")
+                        .listStyle(PlainListStyle())
+
                     }
 
                     Spacer()
@@ -95,22 +102,31 @@ struct ItemDetailView: View {
             Button(action: {
                 showingAddTransactionView = true
             }) {
-                Text("Tambah Transaksi")
+                Text("Add Transaction")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                    .background(.orangeFF7F13)
                     .foregroundColor(.white)
                     .cornerRadius(20)
             }
             .padding()
-            .sheet(isPresented: $showingAddTransactionView) {
-                AddTransactionView(isPresented: $showingAddTransactionView, viewModel: viewModel, itemId: item.id, itemName: item.name)
+            .sheet(isPresented: $showingAddTransactionView, onDismiss: {
+                Task{
+                    await transactionViewModel.fetchTransactions(idSupplier: item.supplierID, idItem: item.id ?? "")
+                }
+            }) {
+                AddTransactionView(isPresented: $showingAddTransactionView, supplierID: item.supplierID, itemID: item.id ?? "", itemName: item.name)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("Detail")
+        .navigationTitle("Detail Item")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear{
+            Task{
+                await transactionViewModel.fetchTransactions(idSupplier: item.supplierID, idItem: item.id ?? "")
+            }
+        }
         .hideTabBar()
         
     }
@@ -118,15 +134,16 @@ struct ItemDetailView: View {
 
 #Preview {
     let sampleItem = Item(
-        id: 1,
-        name: "test", description: "test description",
-        category: "categoty1",
-        price: 10000,
-        stock: 5,
-        imagePath: ""
-    )
-    let sampleViewModel = InventoryViewModel()
+        name: "name",
+        description: "desc",
+        category: "cat",
+        price: 10.000,
+        stock: 10,
+        supplierID: "1",
+        supplierName: "supplier",
+        userID: "1")
+    
 
-    ItemDetailView(viewModel: sampleViewModel, item: sampleItem)
+    ItemDetailView( item: sampleItem)
 }
 
