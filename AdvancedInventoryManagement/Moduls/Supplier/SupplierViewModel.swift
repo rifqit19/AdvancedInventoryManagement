@@ -54,6 +54,7 @@ class SupplierViewModel: ObservableObject {
         }
     }
     
+    //MARK: Unused Function
     // Update supplier in Firestore
     func updateSupplier(supplier: Supplier) async {
         guard let id = supplier.id else { return }
