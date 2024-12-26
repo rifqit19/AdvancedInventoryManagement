@@ -6,18 +6,22 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct AddItemView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    @ObservedObject var viewModel: InventoryViewModel
+    @StateObject private var viewModel = ItemViewModel()
+
+    var supplierID: String
+    var supplierName: String
+
     @State private var name = ""
     @State private var description = ""
     @State private var category = ""
     @State private var price: String = ""
     @State private var stock: String = ""
-    @State private var imagePath = ""
     @State private var showingImagePicker = false
     @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
@@ -27,159 +31,147 @@ struct AddItemView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
 
-    var categoryItems = ["Makanan", "Minuman"]
+    var categoryItems = ["Food", "Drink"]
     
     var body: some View {
-        NavigationView {
-            VStack {
-                ScrollView {
-                    VStack(spacing: 16){
-                        
-                        TextField("Nama Barang", text: $name)
+        VStack {
+            ScrollView {
+                VStack(spacing: 16){
+                    Text("Add Item")
+                        .font(.title2)
+                        .bold()
+                    
+                    TextField("Name", text: $name)
+                        .textFieldStyle(.roundedBorder)
+                    
+                    TextField("Description", text: $description)
+                        .textFieldStyle(.roundedBorder)
+                    
+                    
+                    HStack {
+                        TextField("Category", text: $category)
                             .textFieldStyle(.roundedBorder)
                         
-                        TextField("Deskripsi", text: $description)
-                            .textFieldStyle(.roundedBorder)
-                        
-                        
-                        HStack {
-                            TextField("Kategory", text: $category)
-                                .textFieldStyle(.roundedBorder)
-                            
-                            Menu {
-                                ForEach(categoryItems, id: \.self){ item in
-                                    Button(item) {
-                                        self.category = item
-                                    }
-                                }
-                            } label: {
-                                VStack(spacing: 5){
-                                    Image(systemName: "chevron.down")
-                                        .font(.title3)
-                                    
+                        Menu {
+                            ForEach(categoryItems, id: \.self){ item in
+                                Button(item) {
+                                    self.category = item
                                 }
                             }
-                            
+                        } label: {
+                            VStack(spacing: 5){
+                                Image(systemName: "chevron.down")
+                                    .font(.title3)
+                                
+                            }
                         }
                         
-                        TextField("Harga", text: $price)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.decimalPad)
+                    }
+                    
+                    TextField("Price", text: $price)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.decimalPad)
+                    
+                    TextField("Stock", text: $stock)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                    
+                    
+                    Section(header: Text("Photo")) {
                         
-                        TextField("Stok", text: $stock)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.numberPad)
-                        
-                        
-                        Section(header: Text("Foto Barang")) {
-                            
-                            if let selectedImage = selectedImage {
-                                Image(uiImage: selectedImage)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 150)
-                                    .cornerRadius(10)
-                            }
-                            
-                            Button {
-                                showImagePickerOption.toggle()
-                            } label: {
-                                Text(selectedImage == nil ? "Pilih Foto" : "Ganti Foto")
-                            }
-                            
+                        if let selectedImage = selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 150)
+                                .cornerRadius(10)
                         }
-                        .padding(.top, 20)
                         
+                        Button {
+                            showImagePickerOption.toggle()
+                        } label: {
+                            Text(selectedImage == nil ? "Select Image" : "Change Image")
+                        }
                         
                     }
-                    .padding()
-                    .navigationBarTitleDisplayMode(.inline)
-                    .actionSheet(isPresented: $showImagePickerOption) {
-                        ActionSheet(title: Text("Pilih Sumber Gambar"), buttons: [
-                            .default(Text("Kamera")) {
-                                imageSourceType = .camera
-                                isImagePickerPresented = true
-                            },
-                            .default(Text("Galeri")) {
-                                imageSourceType = .photoLibrary
-                                isImagePickerPresented = true
-                            },
-                            .cancel()
-                        ])
-                    }
-                    .sheet(isPresented: $isImagePickerPresented) {
-                        ImagePickerView(selectedImage: $selectedImage, isPresented: $isImagePickerPresented, sourceType: imageSourceType)
-                    }
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    saveItem()
-                }) {
-                    Text("Tambah Barang")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(.orangeFF7F13)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
+                    .padding(.top, 20)
+                    
+                    
                 }
                 .padding()
-                
+                .navigationBarTitleDisplayMode(.inline)
+                .actionSheet(isPresented: $showImagePickerOption) {
+                    ActionSheet(title: Text("Select Image Source"), buttons: [
+                        .default(Text("Camera")) {
+                            imageSourceType = .camera
+                            isImagePickerPresented = true
+                        },
+                        .default(Text("Gallery")) {
+                            imageSourceType = .photoLibrary
+                            isImagePickerPresented = true
+                        },
+                        .cancel()
+                    ])
+                }
+                .sheet(isPresented: $isImagePickerPresented) {
+                    ImagePickerView(selectedImage: $selectedImage, isPresented: $isImagePickerPresented, sourceType: imageSourceType)
+                }
             }
-            .edgesIgnoringSafeArea(.bottom)
-            .hideTabBar()
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Kesalahan"),
-                    message: Text(alertMessage),
-                    dismissButton: .default(Text("OK"))
-                )
+            
+            Spacer()
+            
+            Button(action: {
+                saveItem()
+            }) {
+                Text("Add Item")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.orangeFF7F13)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
             }
+            .padding()
+            
         }
-        .navigationTitle("Tambah Barang")
+        .edgesIgnoringSafeArea(.bottom)
+        .hideTabBar()
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Failed"),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
     
     func saveItem() {
-        if name.isEmpty || description.isEmpty || category.isEmpty || price.isEmpty || stock.isEmpty {
-            alertMessage = "Harap isi semua field sebelum menambah barang."
-            showAlert = true
+        Task {
+            do {
+                guard let price = Double(price), let stock = Int(stock), let image = selectedImage,
+                      let imageData = image.jpegData(compressionQuality: 0.5) else {
+                    alertMessage = "Please fill in all fields correctly."
+                    showAlert = true
+                    return
+                }
+                
+                guard let userID = Auth.auth().currentUser?.uid else {
+                    alertMessage = "UserID not found"
+                    showAlert = true
+                    return
+                }
 
-        } else {
-            if let price = Double(price), let stock = Int(stock) {
-                let filePath = saveImageToDocuments(image: selectedImage)
-                viewModel.addItem(name: name, description: description, category: category, price: price, stock: stock, imagePath: filePath)
+                let newItem = Item(name: name, description: description, category: category, price: price, stock: stock, supplierID: supplierID, supplierName: supplierName, userID: userID)
+                await viewModel.addItem(to: supplierID, item: newItem, imageData: imageData)
                 dismiss()
-            } else {
-                alertMessage = "Harga harus berupa angka desimal dan stok harus berupa angka bulat."
-                showAlert = true
             }
         }
 
     }
     
-    func saveImageToDocuments(image: UIImage?) -> String {
-        guard let image = image else { return "" }
-
-        let fileManager = FileManager.default
-        let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let filePath = directory.appendingPathComponent(UUID().uuidString + ".jpg")
-
-        if let data = image.jpegData(compressionQuality: 0.8) {
-            do {
-                try data.write(to: filePath)
-                return filePath.path
-            } catch {
-                print("Error saving image: \(error)")
-            }
-        }
-        return ""
-    }
 }
 
 #Preview {
-    let sampleViewModel = InventoryViewModel()
 
-    AddItemView(viewModel: sampleViewModel)
+    AddItemView(supplierID: "1", supplierName: "store 1")
 }
