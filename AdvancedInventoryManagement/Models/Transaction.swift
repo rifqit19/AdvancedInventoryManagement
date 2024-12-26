@@ -2,16 +2,28 @@
 //  Transaction.swift
 //  AdvancedInventoryManagement
 //
-//  Created by rifqi triginandri on 18/12/24.
+//  Created by rifqi triginandri on 26/12/24.
 //
 
-import SwiftUI
+import Foundation
+import FirebaseFirestore
 
-struct Transaction: Identifiable {
-    var id: Int
-    var itemId: Int
+struct Transaction: Identifiable, Codable {
+    @DocumentID var id: String?
+    var itemId: String
     var itemName: String
     var type: String
     var quantity: Int
     var date: Date
+    var supplierID: String
+
+    init(id: String? = nil, itemId: String, itemName: String, type: String, quantity: Int, date: Date, supplierID: String) {
+        self.id = id
+        self.itemId = itemId
+        self.itemName = itemName
+        self.type = type
+        self.quantity = quantity
+        self.date = date
+        self.supplierID = supplierID
+    }
 }
