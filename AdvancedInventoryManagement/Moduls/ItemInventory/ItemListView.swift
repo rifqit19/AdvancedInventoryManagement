@@ -8,12 +8,65 @@
 import SwiftUI
 
 struct ItemListView: View {
-    @StateObject var viewModel = InventoryViewModel()
+    @ObservedObject var itemViewModel = ItemViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
         NavigationView {
             ZStack {
-                if viewModel.items.isEmpty {
+                if !itemViewModel.items.isEmpty {
+                    List(itemViewModel.items.filter { $0.userID == authViewModel.currentUser?.id }) { item in
+                        NavigationLink(destination: ItemDetailView(item: item)){
+                                   HStack(alignment: .top, spacing: 16) {
+                                       if let imageURL = item.imageURL, let url = URL(string: imageURL) {
+                                           AsyncImage(url: url) { image in
+                                               image
+                                                   .resizable()
+                                                   .aspectRatio(contentMode: .fill)
+                                                   .frame(width: 60, height: 60)
+                                                   .cornerRadius(8)
+                                                   .shadow(radius: 2)
+                                           } placeholder: {
+                                               ProgressView()
+                                                   .frame(width: 60, height: 60)
+                                           }
+                                       } else {
+                                           Rectangle()
+                                               .fill(Color.gray.opacity(0.3))
+                                               .frame(width: 60, height: 60)
+                                               .cornerRadius(8)
+                                               .overlay(Text("No Image").font(.caption).foregroundColor(.gray))
+                                       }
+                                       
+                                       // Informasi Item
+                                       VStack(alignment: .leading, spacing: 8) {
+                                           Text(item.name)
+                                               .font(.headline)
+                                               .lineLimit(1)
+                                           
+                                           Text("Price: Rp.\(item.price, specifier: "%.2f")")
+                                               .font(.subheadline)
+                                               .foregroundColor(.secondary)
+                                           
+                                           Text("Stock: \(item.stock)")
+                                               .font(.subheadline)
+                                               .foregroundColor(item.stock > 0 ? .green : .red)
+                                           
+                                           Text("Category: \(item.category)")
+                                               .font(.subheadline)
+                                               .foregroundColor(.secondary)
+                                           
+                                               Text("Supplier: \(item.supplierName)")
+                                                   .font(.subheadline)
+                                                   .foregroundColor(.secondary)
+                                       }
+                                   }
+                                   .padding(.vertical, 8)
+                               }
+                           }
+                    .listStyle(PlainListStyle())
+
+                } else {
                     VStack {
                         
                         Spacer()
@@ -37,66 +90,36 @@ struct ItemListView: View {
                         
                         Spacer()
                     }
-                } else {
-                    VStack {
 
-                        List(viewModel.items) { item in
-                            HStack {
-                                Image(uiImage: loadImageFromPath(item.imagePath))
-                                    .resizable()
-                                    .frame(width: 70, height: 60)
-                                    .cornerRadius(8)
-                                    .scaledToFill()
-                                
-                                VStack(alignment: .leading) {
-                                    Text(item.name)
-                                        .font(.headline)
-                                    Text(item.category)
-                                        .font(.body)
-                                        .foregroundColor(.gray)
-                                    Text("Rp \(item.price, specifier: "%.2f")")
-                                        .font(.subheadline)
-                                    Text("Stok: \(item.stock)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-
-                                }
-                                Spacer()
-                                NavigationLink(destination: ItemDetailView(viewModel: viewModel, item: item)) {
-                                }
-                                
-                            }
-                            .padding(.vertical, 8)
-                        }
-                        .listStyle(PlainListStyle())
-
-                    } // end of vstack
                 }
                 
                 // Floating Action Button
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        NavigationLink(destination: AddItemView(viewModel: viewModel)) {
-                            
-                            ZStack {
-                                Circle()
-                                    .fill(.orangeFF7F13)
-                                    .frame(width: 60, height: 60)
-                                    .shadow(color: Color.gray.opacity(0.5), radius: 10, x: 0, y: 5)
-                                
-                                Image(systemName: "plus")
-                                    .font(.system(size: 24, weight: .bold))
-                                    .foregroundColor(.white)
-                            }
-                        }
-                        .padding()
-                    }
-                } // end of vstack
-            }
-            .navigationTitle("Inventory Items")
+//                VStack {
+//                    Spacer()
+//                    HStack {
+//                        Spacer()
+//                        NavigationLink(destination: AddItemView(supplierID: "1", supplierName: "")) {
+//                            
+//                            ZStack {
+//                                Circle()
+//                                    .fill(.orangeFF7F13)
+//                                    .frame(width: 60, height: 60)
+//                                    .shadow(color: Color.gray.opacity(0.5), radius: 10, x: 0, y: 5)
+//                                
+//                                Image(systemName: "plus")
+//                                    .font(.system(size: 24, weight: .bold))
+//                                    .foregroundColor(.white)
+//                            }
+//                        }
+//                        .padding()
+//                    }
+//                } // end of vstack
 
+            }
+            .onAppear(perform: {
+                itemViewModel.fetchItems()
+            })
+            .navigationTitle("Inventory Items")
             .showTabBar()
         }
     }
