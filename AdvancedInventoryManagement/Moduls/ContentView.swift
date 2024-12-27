@@ -13,11 +13,21 @@ struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var supplierViewModel = SupplierViewModel()
     @StateObject private var itemViewModel = ItemViewModel()
+    @StateObject private var dashboardViewModel = DashboardViewModel()
 
     var body: some View {
         Group {
             if authViewModel.userSession != nil {
                 TabView {
+                    DashboardView()
+                        .tabItem {
+                            Label("Dashboard", systemImage: "house")
+                        }
+                        .environmentObject(dashboardViewModel)
+                        .environmentObject(supplierViewModel)
+                        .environmentObject(itemViewModel)
+
+
                     SupplierView()
                         .tabItem {
                             Label("Supplier", systemImage: "list.dash")
