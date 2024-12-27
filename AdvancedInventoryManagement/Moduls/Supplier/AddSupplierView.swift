@@ -146,7 +146,3 @@ struct AddSupplierView: View {
 #Preview {
     AddSupplierView()
 }
-
-#Preview {
-    AddSupplierView()
-}
