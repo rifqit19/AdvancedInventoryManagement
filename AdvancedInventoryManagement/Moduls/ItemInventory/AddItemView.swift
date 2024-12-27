@@ -47,7 +47,6 @@ struct AddItemView: View {
                     TextField("Description", text: $description)
                         .textFieldStyle(.roundedBorder)
                     
-                    
                     HStack {
                         TextField("Category", text: $category)
                             .textFieldStyle(.roundedBorder)
@@ -148,7 +147,16 @@ struct AddItemView: View {
     func saveItem() {
         Task {
             do {
-                guard let price = Double(price), let stock = Int(stock), let image = selectedImage,
+                
+                guard !name.isEmpty, !description.isEmpty, !category.isEmpty, !price.isEmpty, !stock.isEmpty else {
+                    alertMessage = "Please fill in all fields."
+                    showAlert = true
+                    return
+                }
+
+                guard let price = Double(price),
+                        let stock = Int(stock),
+                        let image = selectedImage,
                       let imageData = image.jpegData(compressionQuality: 0.5) else {
                     alertMessage = "Please fill in all fields correctly."
                     showAlert = true
