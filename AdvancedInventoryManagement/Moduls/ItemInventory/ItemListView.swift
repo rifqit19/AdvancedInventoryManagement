@@ -14,7 +14,7 @@ struct ItemListView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                if !itemViewModel.items.isEmpty {
+                if !itemViewModel.items.filter({ $0.userID == authViewModel.currentUser?.id }).isEmpty {
                     List(itemViewModel.items.filter { $0.userID == authViewModel.currentUser?.id }) { item in
                         NavigationLink(destination: ItemDetailView(item: item)){
                                    HStack(alignment: .top, spacing: 16) {
