@@ -30,11 +30,6 @@ class TransactionViewModel: ObservableObject {
             
             self.transactions = try snapshot.documents.compactMap { try $0.data(as: Transaction.self) }
             
-            // Debug print
-            print("DEBUG: Fetched transactions for itemID \(itemID) under supplierID \(supplierID):")
-            for transaction in transactions {
-                print("- \(transaction.itemName): \(transaction.quantity) \(transaction.type) on \(transaction.date)")
-            }
         } catch {
             print("DEBUG: Failed to fetch transactions \(error.localizedDescription)")
         }
