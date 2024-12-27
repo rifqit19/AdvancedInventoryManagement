@@ -26,14 +26,16 @@ class SupplierViewModel: ObservableObject {
     
     // Fetch all suppliers from Firestore
     func fetchSuppliers() async {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        guard let userID = Auth.auth().currentUser?.uid else { return } // make sure user login
 
         do {
+            // get supplier from "suppliers" collection
             let snapshot = try await db.collection("suppliers")
                 .whereField("userID", isEqualTo: userID)
                 .getDocuments()
             
-            self.suppliers = try snapshot.documents.compactMap { try $0.data(as: Supplier.self) }
+            self.suppliers = try snapshot.documents.compactMap { try $0.data(as: Supplier.self) } // parsing document to Supplier model object
+            
         } catch {
             print("DEBUG: Failed to fetch suppliers \(error.localizedDescription)")
         }
@@ -41,20 +43,19 @@ class SupplierViewModel: ObservableObject {
     
     // Add a new supplier to Firestore
     func addSupplier(supplier: Supplier) async {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        guard let userID = Auth.auth().currentUser?.uid else { return } // make sure user login
         
         var newSupplier = supplier
-        newSupplier.userID = userID
+        newSupplier.userID = userID // add userID to new suppliers data
         
         do {
-            let _ = try db.collection("suppliers").addDocument(from: newSupplier)
-            await fetchSuppliers()
+            let _ = try db.collection("suppliers").addDocument(from: newSupplier) // save new supplier to firestore
+            await fetchSuppliers() // reload supplier data
         } catch {
             print("DEBUG: Failed to add supplier \(error.localizedDescription)")
         }
     }
-    
-    //MARK: Unused Function
+        
     // Update supplier in Firestore
     func updateSupplier(supplier: Supplier) async {
         guard let id = supplier.id else { return }
@@ -68,9 +69,17 @@ class SupplierViewModel: ObservableObject {
     
     // Delete supplier from Firestore
     func deleteSupplier(supplierID: String) async {
-
         do {
+            let itemsCollection = db.collection("suppliers").document(supplierID).collection("items")
+            
+            let itemsSnapshot = try await itemsCollection.getDocuments()
+            
+            for document in itemsSnapshot.documents {
+                try await document.reference.delete()
+            }
+            
             try await db.collection("suppliers").document(supplierID).delete()
+            
             await fetchSuppliers()
         } catch {
             print("DEBUG: Failed to delete supplier \(error.localizedDescription)")
