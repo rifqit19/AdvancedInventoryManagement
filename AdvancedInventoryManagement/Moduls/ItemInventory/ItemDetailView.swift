@@ -14,6 +14,10 @@ struct ItemDetailView: View {
 
     @StateObject private var transactionViewModel = TransactionViewModel()
 
+    @EnvironmentObject var itemViewModel: ItemViewModel
+
+    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
         VStack {
             ScrollView {
@@ -45,6 +49,36 @@ struct ItemDetailView: View {
                             Spacer()
                             Text("Rp \(item.price, specifier: "%.2f")")
                         }
+                        
+                        HStack{
+                            Button(action: {
+                                Task {
+                                    await itemViewModel.deleteItem(from: item.supplierID, imageURL: item.imageURL, itemID: item.id ?? "")
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            }) {
+                                Text("Delete Item")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                            
+                            NavigationLink(destination: EditItemView(item: item)) {
+                                Text("Edit Item")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+
+                            }
+
+                        }
+
                         
                     }
 
@@ -116,7 +150,7 @@ struct ItemDetailView: View {
                     await transactionViewModel.fetchTransactions(idSupplier: item.supplierID, idItem: item.id ?? "")
                 }
             }) {
-                AddTransactionView(isPresented: $showingAddTransactionView, supplierID: item.supplierID, itemID: item.id ?? "", itemName: item.name)
+                AddTransactionView(isPresented: $showingAddTransactionView, supplierID: item.supplierID, itemID: item.id ?? "", itemName: item.name, currentStock: item.stock)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
