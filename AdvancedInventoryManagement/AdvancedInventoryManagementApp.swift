@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 
+// manage app lifecycle
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -18,9 +19,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct AdvancedInventoryManagementApp: App {
+    
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var viewModel = AuthViewModel()
+    @StateObject var viewModel = AuthViewModel() // main instans for
 
     var body: some Scene {
         WindowGroup {
