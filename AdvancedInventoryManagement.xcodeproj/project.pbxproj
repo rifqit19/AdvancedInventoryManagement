@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1DACA4EACA7046B793A5BB9F /* Pods_AdvancedInventoryManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673D460442F53A3CF78FBAE4 /* Pods_AdvancedInventoryManagement.framework */; };
 		4F47CB6F2D13625300AED804 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F47CB6E2D13625300AED804 /* SearchBar.swift */; };
-		4F47CB762D173D1C00AED804 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F47CB752D173D0D00AED804 /* AuthService.swift */; };
 		4F47CB792D173DA800AED804 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F47CB782D173DA800AED804 /* AccountView.swift */; };
 		4F62EC1A2D1752F300AFC434 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC192D1752E300AFC434 /* AuthViewModel.swift */; };
 		4F62EC1C2D17536A00AFC434 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC1B2D17536500AFC434 /* User.swift */; };
@@ -17,11 +16,7 @@
 		4F62EC242D1A07D700AFC434 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC232D1A07D700AFC434 /* ItemViewModel.swift */; };
 		4F62EC262D1B4D5800AFC434 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F62EC252D1B4D5800AFC434 /* Item.swift */; };
 		4F9CCE1E2D12BD7A003823FA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFA2D12BD7A003823FA /* ImagePicker.swift */; };
-		4F9CCE1F2D12BD7A003823FA /* SQLiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFB2D12BD7A003823FA /* SQLiteHelper.swift */; };
-		4F9CCE202D12BD7A003823FA /* Invetory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFD2D12BD7A003823FA /* Invetory.swift */; };
-		4F9CCE212D12BD7A003823FA /* SQLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFE2D12BD7A003823FA /* SQLItem.swift */; };
 		4F9CCE222D12BD7A003823FA /* Supplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCDFF2D12BD7A003823FA /* Supplier.swift */; };
-		4F9CCE232D12BD7A003823FA /* SQLTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCE002D12BD7A003823FA /* SQLTransaction.swift */; };
 		4F9CCE242D12BD7A003823FA /* TabBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCE022D12BD7A003823FA /* TabBarModifier.swift */; };
 		4F9CCE252D12BD7A003823FA /* TextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCE032D12BD7A003823FA /* TextFieldModifier.swift */; };
 		4F9CCE262D12BD7A003823FA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9CCE052D12BD7A003823FA /* LoginView.swift */; };
@@ -39,15 +34,21 @@
 		4F9CCE342D12BD7A003823FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9CCE182D12BD7A003823FA /* Assets.xcassets */; };
 		4F9CCE352D12BD7A003823FA /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9CCE192D12BD7A003823FA /* Colors.xcassets */; };
 		4F9CCE362D12BD7A003823FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9CCE1C2D12BD7A003823FA /* GoogleService-Info.plist */; };
+		4FA659302D1C4A7100642F3D /* AnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA6592E2D1C4A7100642F3D /* AnnotationItem.swift */; };
 		4FA659332D1C982600642F3D /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659322D1C981D00642F3D /* TransactionViewModel.swift */; };
 		4FA659352D1CA42F00642F3D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659342D1CA42F00642F3D /* Transaction.swift */; };
+		4FA659372D1DAF9600642F3D /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659362D1DAF9600642F3D /* MapViewRepresentable.swift */; };
+		4FA659392D1DAFBF00642F3D /* CLLocationManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659382D1DAFBF00642F3D /* CLLocationManagerDelegateWrapper.swift */; };
+		4FA659422D1E4B0600642F3D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659412D1E4B0600642F3D /* DashboardView.swift */; };
+		4FA659442D1E840300642F3D /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659432D1E83FD00642F3D /* DashboardViewModel.swift */; };
+		4FA659462D1E9A4A00642F3D /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659452D1E9A4500642F3D /* EditItemView.swift */; };
+		4FA659482D1EA36800642F3D /* EditSupplierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA659472D1EA35D00642F3D /* EditSupplierView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		061969FDD66F954B69322324 /* Pods_AdvancedInventoryManagement_AdvancedInventoryManagementUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdvancedInventoryManagement_AdvancedInventoryManagementUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F47CB6E2D13625300AED804 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		4F47CB732D17027600AED804 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		4F47CB752D173D0D00AED804 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		4F47CB782D173DA800AED804 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		4F62EC192D1752E300AFC434 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4F62EC1B2D17536500AFC434 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -56,11 +57,7 @@
 		4F62EC252D1B4D5800AFC434 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		4F883ED02D0A0C2000F56B07 /* AdvancedInventoryManagement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdvancedInventoryManagement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9CCDFA2D12BD7A003823FA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		4F9CCDFB2D12BD7A003823FA /* SQLiteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteHelper.swift; sourceTree = "<group>"; };
-		4F9CCDFD2D12BD7A003823FA /* Invetory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invetory.swift; sourceTree = "<group>"; };
-		4F9CCDFE2D12BD7A003823FA /* SQLItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLItem.swift; sourceTree = "<group>"; };
 		4F9CCDFF2D12BD7A003823FA /* Supplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supplier.swift; sourceTree = "<group>"; };
-		4F9CCE002D12BD7A003823FA /* SQLTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLTransaction.swift; sourceTree = "<group>"; };
 		4F9CCE022D12BD7A003823FA /* TabBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarModifier.swift; sourceTree = "<group>"; };
 		4F9CCE032D12BD7A003823FA /* TextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldModifier.swift; sourceTree = "<group>"; };
 		4F9CCE052D12BD7A003823FA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -78,8 +75,15 @@
 		4F9CCE192D12BD7A003823FA /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4F9CCE1B2D12BD7A003823FA /* AdvancedInventoryManagementApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedInventoryManagementApp.swift; sourceTree = "<group>"; };
 		4F9CCE1C2D12BD7A003823FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4FA6592E2D1C4A7100642F3D /* AnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationItem.swift; sourceTree = "<group>"; };
 		4FA659322D1C981D00642F3D /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewModel.swift; sourceTree = "<group>"; };
 		4FA659342D1CA42F00642F3D /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		4FA659362D1DAF9600642F3D /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
+		4FA659382D1DAFBF00642F3D /* CLLocationManagerDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationManagerDelegateWrapper.swift; sourceTree = "<group>"; };
+		4FA659412D1E4B0600642F3D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		4FA659432D1E83FD00642F3D /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		4FA659452D1E9A4500642F3D /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
+		4FA659472D1EA35D00642F3D /* EditSupplierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSupplierView.swift; sourceTree = "<group>"; };
 		6336A688F28A9CD3E9BA81D8 /* Pods-AdvancedInventoryManagement-AdvancedInventoryManagementUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdvancedInventoryManagement-AdvancedInventoryManagementUITests.release.xcconfig"; path = "Target Support Files/Pods-AdvancedInventoryManagement-AdvancedInventoryManagementUITests/Pods-AdvancedInventoryManagement-AdvancedInventoryManagementUITests.release.xcconfig"; sourceTree = "<group>"; };
 		673D460442F53A3CF78FBAE4 /* Pods_AdvancedInventoryManagement.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdvancedInventoryManagement.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		925943AC4EE7EBE985B2D55C /* Pods-AdvancedInventoryManagementTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdvancedInventoryManagementTests.release.xcconfig"; path = "Target Support Files/Pods-AdvancedInventoryManagementTests/Pods-AdvancedInventoryManagementTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -120,14 +124,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4F47CB742D173CFA00AED804 /* Engine */ = {
-			isa = PBXGroup;
-			children = (
-				4F47CB752D173D0D00AED804 /* AuthService.swift */,
-			);
-			path = Engine;
-			sourceTree = "<group>";
-		};
 		4F47CB772D173D9100AED804 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,8 +153,9 @@
 		4F9CCDFC2D12BD7A003823FA /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				4FA659362D1DAF9600642F3D /* MapViewRepresentable.swift */,
+				4FA659382D1DAFBF00642F3D /* CLLocationManagerDelegateWrapper.swift */,
 				4F9CCDFA2D12BD7A003823FA /* ImagePicker.swift */,
-				4F9CCDFB2D12BD7A003823FA /* SQLiteHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -166,13 +163,11 @@
 		4F9CCE012D12BD7A003823FA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4FA6592E2D1C4A7100642F3D /* AnnotationItem.swift */,
 				4FA659342D1CA42F00642F3D /* Transaction.swift */,
 				4F62EC252D1B4D5800AFC434 /* Item.swift */,
 				4F62EC1B2D17536500AFC434 /* User.swift */,
-				4F9CCDFD2D12BD7A003823FA /* Invetory.swift */,
-				4F9CCDFE2D12BD7A003823FA /* SQLItem.swift */,
 				4F9CCDFF2D12BD7A003823FA /* Supplier.swift */,
-				4F9CCE002D12BD7A003823FA /* SQLTransaction.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -209,6 +204,7 @@
 		4F9CCE0F2D12BD7A003823FA /* ItemInventory */ = {
 			isa = PBXGroup;
 			children = (
+				4FA659452D1E9A4500642F3D /* EditItemView.swift */,
 				4F62EC232D1A07D700AFC434 /* ItemViewModel.swift */,
 				4F9CCE092D12BD7A003823FA /* Tansaction */,
 				4F9CCE0A2D12BD7A003823FA /* AddItemView.swift */,
@@ -221,6 +217,7 @@
 		4F9CCE132D12BD7A003823FA /* Supplier */ = {
 			isa = PBXGroup;
 			children = (
+				4FA659472D1EA35D00642F3D /* EditSupplierView.swift */,
 				4F62EC1D2D1880F000AFC434 /* SupplierViewModel.swift */,
 				4F47CB722D143FE800AED804 /* MapView */,
 				4F9CCE102D12BD7A003823FA /* AddSupplierView.swift */,
@@ -233,6 +230,7 @@
 		4F9CCE152D12BD7A003823FA /* Moduls */ = {
 			isa = PBXGroup;
 			children = (
+				4FA659402D1E4B0300642F3D /* Dashboard */,
 				4F47CB772D173D9100AED804 /* Account */,
 				4F9CCE072D12BD7A003823FA /* Auth */,
 				4F9CCE0F2D12BD7A003823FA /* ItemInventory */,
@@ -262,7 +260,6 @@
 		4F9CCE1D2D12BD7A003823FA /* AdvancedInventoryManagement */ = {
 			isa = PBXGroup;
 			children = (
-				4F47CB742D173CFA00AED804 /* Engine */,
 				4F47CB732D17027600AED804 /* Info.plist */,
 				4F9CCDFC2D12BD7A003823FA /* Helper */,
 				4F9CCE012D12BD7A003823FA /* Models */,
@@ -274,6 +271,15 @@
 				4F9CCE1C2D12BD7A003823FA /* GoogleService-Info.plist */,
 			);
 			path = AdvancedInventoryManagement;
+			sourceTree = "<group>";
+		};
+		4FA659402D1E4B0300642F3D /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				4FA659432D1E83FD00642F3D /* DashboardViewModel.swift */,
+				4FA659412D1E4B0600642F3D /* DashboardView.swift */,
+			);
+			path = Dashboard;
 			sourceTree = "<group>";
 		};
 		96B7DB06DF96E47C4FE92847 /* Pods */ = {
@@ -409,31 +415,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F9CCE1E2D12BD7A003823FA /* ImagePicker.swift in Sources */,
-				4F9CCE1F2D12BD7A003823FA /* SQLiteHelper.swift in Sources */,
-				4F9CCE202D12BD7A003823FA /* Invetory.swift in Sources */,
-				4F9CCE212D12BD7A003823FA /* SQLItem.swift in Sources */,
 				4F9CCE222D12BD7A003823FA /* Supplier.swift in Sources */,
 				4F47CB6F2D13625300AED804 /* SearchBar.swift in Sources */,
 				4F62EC262D1B4D5800AFC434 /* Item.swift in Sources */,
 				4FA659332D1C982600642F3D /* TransactionViewModel.swift in Sources */,
-				4F9CCE232D12BD7A003823FA /* SQLTransaction.swift in Sources */,
-				4F47CB762D173D1C00AED804 /* AuthService.swift in Sources */,
 				4F62EC1E2D1880FF00AFC434 /* SupplierViewModel.swift in Sources */,
+				4FA659482D1EA36800642F3D /* EditSupplierView.swift in Sources */,
 				4FA659352D1CA42F00642F3D /* Transaction.swift in Sources */,
 				4F9CCE242D12BD7A003823FA /* TabBarModifier.swift in Sources */,
 				4F9CCE252D12BD7A003823FA /* TextFieldModifier.swift in Sources */,
+				4FA659302D1C4A7100642F3D /* AnnotationItem.swift in Sources */,
 				4F9CCE262D12BD7A003823FA /* LoginView.swift in Sources */,
 				4F9CCE272D12BD7A003823FA /* RegisterView.swift in Sources */,
+				4FA659372D1DAF9600642F3D /* MapViewRepresentable.swift in Sources */,
 				4F9CCE282D12BD7A003823FA /* AddTransactionView.swift in Sources */,
 				4F9CCE292D12BD7A003823FA /* AddItemView.swift in Sources */,
+				4FA659392D1DAFBF00642F3D /* CLLocationManagerDelegateWrapper.swift in Sources */,
 				4F9CCE2C2D12BD7A003823FA /* ItemDetailView.swift in Sources */,
 				4F62EC1A2D1752F300AFC434 /* AuthViewModel.swift in Sources */,
 				4F62EC1C2D17536A00AFC434 /* User.swift in Sources */,
 				4F9CCE2D2D12BD7A003823FA /* ItemListView.swift in Sources */,
+				4FA659442D1E840300642F3D /* DashboardViewModel.swift in Sources */,
 				4F9CCE2E2D12BD7A003823FA /* AddSupplierView.swift in Sources */,
 				4F62EC242D1A07D700AFC434 /* ItemViewModel.swift in Sources */,
 				4F9CCE2F2D12BD7A003823FA /* SupplierDetailView.swift in Sources */,
 				4F9CCE302D12BD7A003823FA /* SupplierView.swift in Sources */,
+				4FA659462D1E9A4A00642F3D /* EditItemView.swift in Sources */,
+				4FA659422D1E4B0600642F3D /* DashboardView.swift in Sources */,
 				4F9CCE312D12BD7A003823FA /* ContentView.swift in Sources */,
 				4F9CCE322D12BD7A003823FA /* AdvancedInventoryManagementApp.swift in Sources */,
 				4F47CB792D173DA800AED804 /* AccountView.swift in Sources */,
