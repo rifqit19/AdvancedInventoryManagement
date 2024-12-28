@@ -92,12 +92,18 @@ struct MapPickerView: View {
 
     // add anotation on tapped location
     private func addAnnotation(at coordinate: CLLocationCoordinate2D) {
-        annotations = [AnnotationItem(coordinate: coordinate)]
+        // Memperbarui latitude dan longitude dengan koordinat yang dipilih
+        latitude = coordinate.latitude
+        longitude = coordinate.longitude
         
+        // Memperbarui region
         region = MKCoordinateRegion(
             center: coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         )
+        
+        // Menambahkan anotasi
+        annotations = [AnnotationItem(coordinate: coordinate)]
     }
     
     // search location
