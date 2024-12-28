@@ -42,35 +42,33 @@ struct SupplierView: View {
                     }
 
                 } else {
-                    List {
-                        ForEach(viewModel.suppliers) { supplier in
-                            NavigationLink(destination: SupplierDetailView(supplier: .constant(supplier))) {
-                                VStack(alignment: .leading) {
-                                    Text(supplier.name)
-                                        .font(.headline)
-                                    Text(supplier.address)
-                                        .font(.subheadline)
-                                    Text("Contact: \(supplier.contact)")
-                                        .font(.footnote)
-                                }
-                                .padding(.vertical, 5)
-                                .swipeActions(edge: .trailing) {
-                                    Button(role: .destructive) {
-                                        Task {
-                                            await viewModel.deleteSupplier(supplierID: supplier.id ?? "")
-                                        }
-                                    } label: {
-                                        Label("Hapus", systemImage: "trash")
+                    List(viewModel.suppliers) { supplier in
+                        NavigationLink(destination: SupplierDetailView(supplier: .constant(supplier))) {
+                            VStack(alignment: .leading) {
+                                Text(supplier.name)
+                                    .font(.headline)
+                                Text(supplier.address)
+                                    .font(.subheadline)
+                                Text("Contact: \(supplier.contact)")
+                                    .font(.footnote)
+                            }
+                            .padding(.vertical, 5)
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    Task {
+                                        await viewModel.deleteSupplier(supplierID: supplier.id ?? "")
                                     }
-                                    
-                                    Button {
-                                        selectedSupplier = supplier
-                                        isEditing = true
-                                    } label: {
-                                        Label("Edit", systemImage: "pencil")
-                                    }
-                                    .tint(.blue)
+                                } label: {
+                                    Label("Hapus", systemImage: "trash")
                                 }
+                                
+                                Button {
+                                    selectedSupplier = supplier
+                                    isEditing = true
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                .tint(.blue)
                             }
                         }
                     }
