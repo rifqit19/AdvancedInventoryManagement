@@ -62,6 +62,23 @@ struct ItemListView: View {
                                        }
                                    }
                                    .padding(.vertical, 8)
+                                   .swipeActions(edge: .trailing) {
+                                       Button(role: .destructive) {
+                                           Task {
+                                               print("delete supplier")
+                                           }
+                                       } label: {
+                                           Label("Hapus", systemImage: "trash")
+                                       }
+                                       
+                                       Button {
+                                           print("update supplier")
+                                       } label: {
+                                           Label("Edit", systemImage: "pencil")
+                                       }
+                                       .tint(.blue)
+                                   }
+
                                }
                            }
                     .listStyle(PlainListStyle())
