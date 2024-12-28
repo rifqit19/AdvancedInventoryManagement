@@ -10,7 +10,9 @@ import SwiftUI
 struct SupplierView: View {
     
     @EnvironmentObject var viewModel: SupplierViewModel
-    
+    @State private var selectedSupplier: Supplier? = nil
+    @State private var isEditing: Bool = false
+
     var body: some View {
         NavigationView {
             ZStack{
@@ -40,20 +42,38 @@ struct SupplierView: View {
                     }
 
                 } else {
-                    List(viewModel.suppliers) { supplier in
-                        NavigationLink(destination: SupplierDetailView(supplier: .constant(supplier))) {
-                            VStack(alignment: .leading) {
-                                Text(supplier.name)
-                                    .font(.headline)
-                                Text(supplier.address)
-                                    .font(.subheadline)
-                                Text("Contact: \(supplier.contact)")
-                                    .font(.footnote)
+                    List {
+                        ForEach(viewModel.suppliers) { supplier in
+                            NavigationLink(destination: SupplierDetailView(supplier: .constant(supplier))) {
+                                VStack(alignment: .leading) {
+                                    Text(supplier.name)
+                                        .font(.headline)
+                                    Text(supplier.address)
+                                        .font(.subheadline)
+                                    Text("Contact: \(supplier.contact)")
+                                        .font(.footnote)
+                                }
+                                .padding(.vertical, 5)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        Task {
+                                            await viewModel.deleteSupplier(supplierID: supplier.id ?? "")
+                                        }
+                                    } label: {
+                                        Label("Hapus", systemImage: "trash")
+                                    }
+                                    
+                                    Button {
+                                        selectedSupplier = supplier
+                                        isEditing = true
+                                    } label: {
+                                        Label("Edit", systemImage: "pencil")
+                                    }
+                                    .tint(.blue)
+                                }
                             }
-                            .padding(.vertical, 5)
                         }
                     }
-
                 }
             }
             .navigationTitle("Suppliers")
@@ -70,6 +90,15 @@ struct SupplierView: View {
                 }
             }
             .showTabBar()
+            .background(
+                NavigationLink(
+                    destination: EditSupplierView(supplier: selectedSupplier ?? Supplier(id: "", userID: "", name: "", address: "", contact: "", longitude: 0.0, latitude: 0.0)),
+                    isActive: $isEditing
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            )
         }
         
     }
