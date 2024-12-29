@@ -11,7 +11,7 @@ import FirebaseAuth
 struct EditItemView: View {
     
     @Environment(\.dismiss) var dismiss
-    @StateObject private var viewModel = ItemViewModel()
+    @EnvironmentObject private var viewModel: ItemViewModel
     
     var item: Item
     
