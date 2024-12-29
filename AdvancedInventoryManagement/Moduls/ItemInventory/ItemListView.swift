@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct ItemListView: View {
-    @ObservedObject var itemViewModel = ItemViewModel()
+    @EnvironmentObject var itemViewModel: ItemViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
+
+    @State private var selectedItem: Item? = nil
+    @State private var isEditing: Bool = false
 
     var body: some View {
         NavigationView {
@@ -65,14 +68,15 @@ struct ItemListView: View {
                                    .swipeActions(edge: .trailing) {
                                        Button(role: .destructive) {
                                            Task {
-                                               print("delete supplier")
+                                               await itemViewModel.deleteItem(from: item.supplierID, imageURL: item.imageURL, itemID: item.id ?? "")
                                            }
                                        } label: {
                                            Label("Hapus", systemImage: "trash")
                                        }
                                        
                                        Button {
-                                           print("update supplier")
+                                           selectedItem = item
+                                           isEditing = true
                                        } label: {
                                            Label("Edit", systemImage: "pencil")
                                        }
@@ -81,7 +85,6 @@ struct ItemListView: View {
 
                                }
                            }
-                    .listStyle(PlainListStyle())
 
                 } else {
                     VStack {
@@ -138,6 +141,18 @@ struct ItemListView: View {
             })
             .navigationTitle("Inventory Items")
             .showTabBar()
+            .background(
+                NavigationLink(
+                    destination: EditItemView(item: selectedItem ?? Item(name: "", description: "", category: "", price: 0.0, stock: 0, supplierID: "", supplierName: "", userID: "")),
+                    isActive: $isEditing
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            )
+
+
+
         }
     }
 
