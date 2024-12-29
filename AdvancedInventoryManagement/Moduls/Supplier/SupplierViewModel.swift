@@ -61,6 +61,17 @@ class SupplierViewModel: ObservableObject {
         guard let id = supplier.id else { return }
         do {
             try db.collection("suppliers").document(id).setData(from: supplier)
+            
+            let itemsCollection = db.collection("suppliers").document(id).collection("items")
+            let itemsSnapshot = try await itemsCollection.getDocuments()
+            
+            for document in itemsSnapshot.documents {
+                var item = try document.data(as: Item.self)
+                item.supplierName = supplier.name
+                
+                try itemsCollection.document(document.documentID).setData(from: item)
+            }
+
             await fetchSuppliers()
         } catch {
             print("DEBUG: Failed to update supplier \(error.localizedDescription)")
